@@ -1,37 +1,162 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trang chủ - My CSS Project</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư viện ảnh tương tác</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #0056b3;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #ffd43b;
+        }
+
+        section {
+            display: none;
+            padding: 30px;
+            text-align: center;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        /* Thư viện ảnh */
+        .preview {
+            width: 500px;
+            height: 300px;
+            margin: 0 auto 20px auto;
+            border: 2px solid #ccc;
+            line-height: 300px;
+            font-size: 18px;
+            color: #333;
+            background-size: cover;
+            background-position: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .gallery {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .thumb {
+            width: 150px;
+            height: 100px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s, border 0.2s;
+        }
+
+        .thumb:hover {
+            transform: scale(1.1);
+            border: 2px solid #007BFF;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>Thư viện ảnh tương tác</h1>
+    </header>
 
-  <a href="#main" class="skip-link">Chuyển đến nội dung chính</a>
-
-  <header>
-    <h1>Khóa học CSS - Trang chủ</h1>
     <nav>
-      <ul class="nav">
-        <li><a href="index.html" class="active">Trang chủ</a></li>
-        <li><a href="gallery.html">Thư viện</a></li>
-        <li><a href="about.html">Giới thiệu</a></li>
-      </ul>
+        <a onclick="showSection('home')">Trang chủ</a>
+        <a onclick="showSection('gallery')">Thư viện</a>
+        <a onclick="showSection('about')">Giới thiệu</a>
     </nav>
-  </header>
 
-  <main id="main">
-    <section class="intro">
-      <h2>Chào mừng bạn đến với dự án CSS!</h2>
-      <p>Đây là bài thực hành tổng kết kỹ năng CSS: position, grid, flex, hover, focus và nhiều hơn nữa!</p>
-      <img src="https://picsum.photos/400/250" alt="Ảnh minh họa CSS">
+    <!-- Trang chủ -->
+    <section id="home" class="active">
+        <h2>Chào mừng bạn đến với trang web!</h2>
+        <p>Di chuột qua "Thư viện" để khám phá những hình ảnh tuyệt đẹp và tương tác trực tiếp.</p>
     </section>
-  </main>
 
-  <footer>
-    <p>&copy; 2025 - CSS Practice Project</p>
-  </footer>
+    <!-- Thư viện -->
+    <section id="gallery">
+        <h2>Thư viện ảnh</h2>
+        <div id="image-preview" class="preview">
+            Di chuột qua một hình ảnh bên dưới để hiển thị ở đây.
+        </div>
 
+        <div class="gallery">
+            <img src="https://picsum.photos/id/1015/150/100" alt="Cảnh núi" class="thumb" onmouseover="update(this)" onmouseout="undo()">
+            <img src="https://picsum.photos/id/1025/150/100" alt="Chó đáng yêu" class="thumb" onmouseover="update(this)" onmouseout="undo()">
+            <img src="https://picsum.photos/id/1043/150/100" alt="Cây cối" class="thumb" onmouseover="update(this)" onmouseout="undo()">
+            <img src="https://picsum.photos/id/1050/150/100" alt="Biển xanh" class="thumb" onmouseover="update(this)" onmouseout="undo()">
+        </div>
+    </section>
+
+    <!-- Giới thiệu -->
+    <section id="about">
+        <h2>Giới thiệu</h2>
+        <p>Trang web được tạo để luyện tập JavaScript thao tác DOM – hiển thị ảnh, thay đổi nền, và nội dung khi di chuột.</p>
+        <p>Tác giả: <strong>Lợi Đức</strong></p>
+    </section>
+
+    <footer>
+        &copy; 2025 Thư viện ảnh tương tác - JavaScript DOM
+    </footer>
+
+    <script>
+        // 🔹 Chuyển đổi giữa các phần Trang chủ / Thư viện / Giới thiệu
+        function showSection(id) {
+            document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+            document.getElementById(id).classList.add("active");
+        }
+
+        // 🔹 Cập nhật ảnh khi di chuột
+        function update(previewPic) {
+            const previewDiv = document.getElementById("image-preview");
+            previewDiv.textContent = previewPic.alt;
+            previewDiv.style.backgroundImage = `url('${previewPic.src}')`;
+            previewDiv.style.color = "#fff";
+        }
+
+        // 🔹 Hoàn tác khi chuột rời
+        function undo() {
+            const previewDiv = document.getElementById("image-preview");
+            previewDiv.textContent = "Di chuột qua một hình ảnh bên dưới để hiển thị ở đây.";
+            previewDiv.style.backgroundImage = "none";
+            previewDiv.style.color = "#333";
+        }
+    </script>
 </body>
 </html>
